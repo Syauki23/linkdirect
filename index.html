@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Central Web Portal - Enterprise Application Directory</title>
+  <meta name="description" content="Central Enterprise Web Portal & App Launcher for Internal Systems" />
+
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'Inter', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              50: '#fff7ed',
+              100: '#ffedd5',
+              200: '#fed7aa',
+              300: '#fdba74',
+              400: '#fb923c',
+              500: '#f97316', // Main Orange
+              600: '#ea580c',
+              700: '#c2410c',
+              800: '#9a3412',
+              900: '#7c2d12',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    /* Subtle warm grid pattern for light theme */
+    .bg-warm-grid {
+      background-size: 32px 32px;
+      background-image: 
+        linear-gradient(to right, rgba(249, 115, 22, 0.05) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(249, 115, 22, 0.05) 1px, transparent 1px);
+    }
+
+    /* Custom smooth scrollbar */
+    ::-webkit-scrollbar {
+      width: 7px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f8fafc;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #f97316;
+    }
+
+    /* Modal Animation */
+    .modal-enter {
+      animation: modalFadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    @keyframes modalFadeIn {
+      from {
+        opacity: 0;
+        transform: scale(0.96) translateY(8px);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
+  </style>
+</head>
+
+<body class="bg-[#FCFCFC] text-slate-800 min-h-screen font-sans antialiased flex flex-col selection:bg-orange-500/20 selection:text-orange-900 relative overflow-x-hidden">
+
+  <!-- Ambient Warm Gradient Lights -->
+  <div class="fixed top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-96 bg-gradient-to-b from-orange-400/10 via-amber-300/5 to-transparent blur-3xl pointer-events-none -z-10"></div>
+  <div class="fixed top-40 right-0 w-96 h-96 bg-orange-300/10 rounded-full blur-3xl pointer-events-none -z-10"></div>
+  <div class="fixed top-80 -left-20 w-80 h-80 bg-amber-400/10 rounded-full blur-3xl pointer-events-none -z-10"></div>
+
+  <!-- Warm Tech Grid Overlay -->
+  <div class="fixed inset-0 bg-warm-grid pointer-events-none -z-10"></div>
+
+  <!-- Header / Top Navigation -->
+  <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-xl border-b border-orange-100 shadow-sm transition-all duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16 sm:h-20 gap-4">
+        
+        <!-- Left: Logo & Portal Identity -->
+        <div class="flex items-center gap-3.5 min-w-max">
+          <div class="relative group cursor-pointer">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-orange-600 via-orange-500 to-amber-400 p-[1px] shadow-md shadow-orange-500/20">
+              <div class="w-full h-full bg-white rounded-[11px] flex items-center justify-center">
+                <i data-lucide="layers" class="w-5 h-5 text-orange-600 group-hover:rotate-12 transition-transform duration-300"></i>
+              </div>
+            </div>
+            <span class="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-emerald-500 border-2 border-white rounded-full"></span>
+          </div>
+
+          <div class="flex flex-col">
+            <div class="flex items-center gap-2">
+              <span class="text-base sm:text-lg font-extrabold tracking-tight text-slate-900 flex items-center">
+                CENTRAL<span class="text-transparent bg-clip-text bg-gradient-to-r from-orange-600 to-amber-500">PORTAL</span>
+              </span>
+              <span class="px-2 py-0.5 text-[10px] font-bold tracking-wider uppercase bg-orange-50 text-orange-600 border border-orange-200 rounded-md">
+                v1.1
+              </span>
+            </div>
+            <span class="text-[11px] text-slate-500 hidden sm:block">Unified Enterprise Navigation Hub</span>
+          </div>
+        </div>
+
+        <!-- Center: Interactive Search Bar -->
+        <div class="flex-1 max-w-md mx-2 sm:mx-4">
+          <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+              <i data-lucide="search" class="w-4 h-4"></i>
+            </div>
+            <input
+              type="text"
+              id="searchInput"
+              placeholder="Cari sistem, port, atau kata kunci... (Tekan '/' untuk fokus)"
+              class="w-full pl-10 pr-12 py-2 sm:py-2.5 bg-slate-50/80 hover:bg-white focus:bg-white border border-slate-200 rounded-xl text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-orange-500/25 focus:border-orange-500 transition-all shadow-sm"
+            />
+            <div class="absolute inset-y-0 right-0 pr-3 flex items-center gap-1">
+              <button 
+                id="clearSearchBtn" 
+                class="hidden text-slate-400 hover:text-slate-600 transition-colors p-1"
+                title="Hapus pencarian">
+                <i data-lucide="x" class="w-3.5 h-3.5"></i>
+              </button>
+              <kbd class="hidden sm:inline-flex items-center px-1.5 py-0.5 text-[10px] font-mono text-slate-400 bg-slate-100 border border-slate-200 rounded">
+                /
+              </kbd>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Actions, Status & Tambah Button -->
+        <div class="flex items-center gap-2 sm:gap-3 min-w-max">
+          <!-- Button Tambah Sistem (Primary Action) -->
+          <button 
+            id="openAddModalBtn"
+            class="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-2.5 bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 active:scale-95 text-white font-semibold text-xs sm:text-sm rounded-xl shadow-md shadow-orange-500/25 hover:shadow-lg hover:shadow-orange-500/35 transition-all duration-200"
+          >
+            <i data-lucide="plus" class="w-4 h-4 stroke-[2.5]"></i>
+            <span>Tambah Sistem</span>
+          </button>
+
+          <!-- Digital Clock -->
+          <div class="hidden lg:flex items-center gap-2 px-3 py-2 rounded-xl bg-slate-100/80 border border-slate-200 text-xs text-slate-600 font-mono">
+            <i data-lucide="clock" class="w-3.5 h-3.5 text-orange-500"></i>
+            <span id="liveClock">--:--:-- WIB</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Container -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+
+    <!-- Hero / Headline Section -->
+    <div class="mb-6 flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-orange-100 pb-6">
+      <div>
+        <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-orange-50 border border-orange-200/80 text-orange-700 text-xs font-semibold mb-2">
+          <i data-lucide="shield-check" class="w-3.5 h-3.5 text-orange-600"></i>
+          <span>Secure Enterprise Access</span>
+        </div>
+        <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+          Application Directory
+        </h1>
+        <p class="text-slate-600 text-sm mt-1 max-w-2xl leading-relaxed">
+          Akses cepat aplikasi internal produksi, gudang logistik, server, dan utilitas jaringan perusahaan.
+        </p>
+      </div>
+
+      <!-- Quick Metrics Pill -->
+      <div class="flex items-center gap-3 text-xs text-slate-600 bg-white border border-slate-200 px-3.5 py-2.5 rounded-xl shadow-sm self-start md:self-auto">
+        <div class="flex items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-orange-500"></span>
+          <span class="font-bold text-slate-900" id="totalAppsCounter">0</span>
+          <span>Sistem Aktif</span>
+        </div>
+        <span class="text-slate-300">•</span>
+        <div class="flex items-center gap-1.5 text-emerald-600 font-medium">
+          <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+          <span>All Operational</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Category Filter Bar & Controls -->
+    <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+      <!-- Tabs -->
+      <div class="flex flex-wrap items-center gap-1.5 p-1 bg-white border border-slate-200 rounded-2xl shadow-sm" id="categoryFilterContainer">
+        <!-- Buttons rendered dynamically via JS -->
+      </div>
+
+      <!-- Stats & Quick Reset -->
+      <div class="flex items-center gap-3 text-xs text-slate-500">
+        <span id="filterStats">Menampilkan semua sistem</span>
+        <button 
+          id="restoreDefaultsBtn" 
+          class="text-orange-600 hover:text-orange-700 font-medium underline underline-offset-2 transition-colors"
+          title="Kembalikan data contoh awal jika diperlukan">
+          Reset Data Default
+        </button>
+      </div>
+    </div>
+
+    <!-- System Cards Grid -->
+    <div 
+      id="cardsGrid" 
+      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 transition-all duration-300"
+    >
+      <!-- Cards rendered dynamically via JavaScript -->
+    </div>
+
+    <!-- Empty State (Hidden by default) -->
+    <div id="emptyState" class="hidden text-center py-20 px-4 bg-white border border-dashed border-orange-200 rounded-3xl mt-4">
+      <div class="w-16 h-16 mx-auto mb-4 rounded-2xl bg-orange-50 border border-orange-200 flex items-center justify-center text-orange-500 shadow-sm">
+        <i data-lucide="search-x" class="w-8 h-8"></i>
+      </div>
+      <h3 class="text-lg font-bold text-slate-900 mb-1">Sistem Tidak Ditemukan</h3>
+      <p class="text-sm text-slate-500 max-w-sm mx-auto mb-6">
+        Tidak ada aplikasi yang sesuai dengan filter atau kata kunci <span id="emptyStateQuery" class="text-orange-600 font-semibold font-mono">""</span>.
+      </p>
+      <div class="flex items-center justify-center gap-3">
+        <button 
+          id="resetFilterBtn"
+          class="inline-flex items-center gap-2 px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-xl transition-all"
+        >
+          <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+          Reset Filter
+        </button>
+        <button 
+          onclick="openAddModal()"
+          class="inline-flex items-center gap-2 px-4 py-2.5 bg-orange-500 hover:bg-orange-600 text-white text-xs font-semibold rounded-xl transition-all shadow-md shadow-orange-500/25"
+        >
+          <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+          Tambah Sistem Baru
+        </button>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="mt-auto border-t border-orange-100 bg-white py-6 text-xs text-slate-500">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-2">
+        <div class="w-2.5 h-2.5 rounded-full bg-orange-500"></div>
+        <span class="font-semibold text-slate-700">Central Web Portal</span>
+        <span>— Internal Network Hub</span>
+      </div>
+      <div class="flex items-center gap-4 sm:gap-6 text-slate-500 flex-wrap justify-center">
+        <span>Port: 20128 Gateway</span>
+        <span>•</span>
+        <span>Laragon Stack v6.0</span>
+        <span>•</span>
+        <span>&copy; <span id="currentYear">2026</span> IT Infrastructure</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL: TAMBAH SISTEM BARU                                                 -->
+  <!-- ========================================================================= -->
+  <div id="addSystemModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
+    <!-- Backdrop Blur -->
+    <div class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm transition-opacity" id="addModalBackdrop"></div>
+
+    <!-- Modal Box -->
+    <div class="relative w-full max-w-lg bg-white rounded-2xl shadow-2xl border border-orange-100 overflow-hidden modal-enter z-10">
+      
+      <!-- Modal Header -->
+      <div class="flex items-center justify-between px-6 py-4 border-b border-slate-100 bg-orange-50/40">
+        <div class="flex items-center gap-2.5">
+          <div class="w-9 h-9 rounded-xl bg-orange-500 text-white flex items-center justify-center shadow-md shadow-orange-500/25">
+            <i data-lucide="plus" class="w-5 h-5 stroke-[2.5]"></i>
+          </div>
+          <div>
+            <h3 class="text-base font-bold text-slate-900">Tambah Sistem Baru</h3>
+            <p class="text-xs text-slate-500">Daftarkan aplikasi internal atau tautan server baru</p>
+          </div>
+        </div>
+        <button id="closeAddModalBtn" class="text-slate-400 hover:text-slate-600 p-1.5 rounded-lg hover:bg-slate-100 transition-colors">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- Modal Body (Form) -->
+      <form id="addSystemForm" class="p-6 space-y-4">
+        
+        <!-- Nama Sistem -->
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">
+            Nama Sistem / Aplikasi <span class="text-red-500">*</span>
+          </label>
+          <input 
+            type="text" 
+            id="formTitle" 
+            required 
+            placeholder="Contoh: Quality Assurance & QC" 
+            class="w-full px-3.5 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all text-slate-800"
+          />
+        </div>
+
+        <!-- URL Tujuan -->
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">
+            URL Aplikasi / Endpoint <span class="text-red-500">*</span>
+          </label>
+          <input 
+            type="url" 
+            id="formUrl" 
+            required 
+            placeholder="http://qa.internal atau http://192.168.1.50:8000" 
+            class="w-full px-3.5 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all font-mono text-xs text-slate-800"
+          />
+        </div>
+
+        <!-- Grid 2 Col: Kategori & Status Badge -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <!-- Kategori -->
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">
+              Kategori <span class="text-red-500">*</span>
+            </label>
+            <select 
+              id="formCategory" 
+              class="w-full px-3.5 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all text-slate-800"
+            >
+              <option value="operations">Operations</option>
+              <option value="inventory">Inventory & Logistics</option>
+              <option value="server">Server & Dev Tools</option>
+            </select>
+          </div>
+
+          <!-- Status Badge -->
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">
+              Status Badge
+            </label>
+            <select 
+              id="formBadge" 
+              class="w-full px-3.5 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all text-slate-800"
+            >
+              <option value="Production">Production</option>
+              <option value="Online">Online</option>
+              <option value="Local">Local</option>
+              <option value="Development">Development</option>
+              <option value="Operational">Operational</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Pilihan Icon Lucide -->
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">
+            Pilihan Icon
+          </label>
+          <div class="grid grid-cols-6 gap-2" id="iconPickerGrid">
+            <!-- Icon options rendered by script -->
+          </div>
+          <input type="hidden" id="formIcon" value="boxes" />
+        </div>
+
+        <!-- Deskripsi Singkat -->
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">
+            Deskripsi Singkat (Maksimal 2 baris)
+          </label>
+          <textarea 
+            id="formDescription" 
+            rows="2" 
+            placeholder="Deskripsi singkat fungsi modul ini bagi pengguna..." 
+            class="w-full px-3.5 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all text-slate-800 resize-none"
+          ></textarea>
+        </div>
+
+        <!-- Endpoint Hint (Optional) -->
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">
+            Label Endpoint / Port (Opsional)
+          </label>
+          <input 
+            type="text" 
+            id="formEndpointHint" 
+            placeholder="Otomatis diambil dari URL jika kosong" 
+            class="w-full px-3.5 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all font-mono text-xs text-slate-800"
+          />
+        </div>
+
+        <!-- Form Actions -->
+        <div class="pt-4 border-t border-slate-100 flex items-center justify-end gap-3">
+          <button 
+            type="button" 
+            id="cancelAddModalBtn"
+            class="px-4 py-2.5 text-xs font-semibold text-slate-600 hover:text-slate-800 bg-slate-100 hover:bg-slate-200 rounded-xl transition-colors"
+          >
+            Batal
+          </button>
+          <button 
+            type="submit" 
+            class="px-5 py-2.5 text-xs font-bold text-white bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 rounded-xl shadow-md shadow-orange-500/25 transition-all flex items-center gap-1.5"
+          >
+            <i data-lucide="check" class="w-4 h-4"></i>
+            <span>Simpan Sistem</span>
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL: KONFIRMASI HAPUS                                                   -->
+  <!-- ========================================================================= -->
+  <div id="deleteModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4">
+    <div class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm transition-opacity" id="deleteModalBackdrop"></div>
+    <div class="relative w-full max-w-sm bg-white rounded-2xl shadow-2xl border border-red-100 overflow-hidden modal-enter z-10 p-6 text-center">
+      <div class="w-12 h-12 rounded-full bg-red-50 text-red-500 mx-auto flex items-center justify-center mb-4 border border-red-200">
+        <i data-lucide="trash-2" class="w-6 h-6"></i>
+      </div>
+      <h3 class="text-base font-bold text-slate-900 mb-1">Hapus Sistem Ini?</h3>
+      <p class="text-xs text-slate-500 mb-6">
+        Apakah Anda yakin ingin menghapus <span id="deleteSystemName" class="font-bold text-slate-800">""</span> dari daftar portal?
+      </p>
+      <div class="flex items-center justify-center gap-3">
+        <button 
+          id="cancelDeleteBtn" 
+          class="w-1/2 px-4 py-2.5 text-xs font-semibold text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-xl transition-colors"
+        >
+          Batal
+        </button>
+        <button 
+          id="confirmDeleteBtn" 
+          class="w-1/2 px-4 py-2.5 text-xs font-bold text-white bg-red-500 hover:bg-red-600 rounded-xl shadow-md shadow-red-500/25 transition-colors"
+        >
+          Ya, Hapus
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none flex items-center gap-2.5 px-4 py-3 rounded-xl bg-slate-900 text-white text-xs font-semibold shadow-xl border border-slate-800">
+    <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400"></i>
+    <span id="toastMessage">Pemberitahuan</span>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- JAVASCRIPT LOGIC                                                          -->
+  <!-- ========================================================================= -->
+  <script>
+    /**
+     * LocalStorage Key
+     */
+    const STORAGE_KEY = "central_portal_systems_data_v2";
+
+    /**
+     * DATA AWAL DEFAULT (Orange & White Enterprise Theme)
+     */
+    const DEFAULT_SYSTEMS = [
+      {
+        id: "wms-inventory",
+        title: "WMS & Inventory",
+        category: "inventory",
+        description: "Warehouse Management System, dynamic QR code scanning, WIP goods receipt, dan stock audit.",
+        url: "http://wms.local:8080",
+        endpointHint: "wms.internal:8080",
+        badge: "Production",
+        icon: "boxes"
+      },
+      {
+        id: "procurement-subcont",
+        title: "Procurement & Subcont",
+        category: "operations",
+        description: "Sistem Pengadaan, manajemen Purchase Order (PO), monitoring progres dan billing subkontraktor.",
+        url: "http://procurement.local",
+        endpointHint: "procurement.internal",
+        badge: "Production",
+        icon: "truck"
+      },
+      {
+        id: "bpb-requisition",
+        title: "BPB Material Requisition",
+        category: "operations",
+        description: "Bon Permintaan Barang digital, approval alur otorisasi multi-level, dan alokasi stock.",
+        url: "http://bpb.local",
+        endpointHint: "bpb.portal.internal",
+        badge: "Online",
+        icon: "clipboard-check"
+      },
+      {
+        id: "ppc-production",
+        title: "PPC Production Dashboard",
+        category: "operations",
+        description: "Monitoring proses manufaktur, kapasitas mesin, dan automated Excel raw data processing.",
+        url: "http://ppc.local:9000",
+        endpointHint: "ppc-monitor.local:9000",
+        badge: "Production",
+        icon: "gauge"
+      },
+      {
+        id: "cpanel-admin",
+        title: "cPanel & Database Admin",
+        category: "server",
+        description: "Akses web hosting control panel, phpMyAdmin MySQL database, konfigurasi DNS, dan auto backup.",
+        url: "https://cpanel.company.com:2083",
+        endpointHint: "cpanel:2083 / phpMyAdmin",
+        badge: "Production",
+        icon: "database"
+      },
+      {
+        id: "local-router",
+        title: "Local Router & Services",
+        category: "server",
+        description: "Management router jaringan gateway lokal, port forwarding, dan service manager Port 20128.",
+        url: "http://192.168.1.1:20128",
+        endpointHint: "Port: 20128 (Local Gateway)",
+        badge: "Local",
+        icon: "router"
+      }
+    ];
+
+    /**
+     * Kategori Filter Definition
+     */
+    const CATEGORIES = [
+      { id: "all", name: "All Systems", icon: "layout-grid" },
+      { id: "operations", name: "Operations", icon: "briefcase" },
+      { id: "inventory", name: "Inventory & Logistics", icon: "box" },
+      { id: "server", name: "Server & Dev Tools", icon: "terminal" }
+    ];
+
+    /**
+     * Icon Selection Options for Add Modal
+     */
+    const AVAILABLE_ICONS = [
+      "boxes", "truck", "clipboard-check", "gauge", "database", "router",
+      "activity", "users", "server", "cpu", "globe", "hard-drive"
+    ];
+
+    // State Variables
+    let systems = loadSystems();
+    let currentCategory = "all";
+    let searchQuery = "";
+    let systemIdToDelete = null;
+
+    // DOM Elements
+    const searchInput = document.getElementById("searchInput");
+    const clearSearchBtn = document.getElementById("clearSearchBtn");
+    const cardsGrid = document.getElementById("cardsGrid");
+    const emptyState = document.getElementById("emptyState");
+    const emptyStateQuery = document.getElementById("emptyStateQuery");
+    const resetFilterBtn = document.getElementById("resetFilterBtn");
+    const restoreDefaultsBtn = document.getElementById("restoreDefaultsBtn");
+    const categoryFilterContainer = document.getElementById("categoryFilterContainer");
+    const filterStats = document.getElementById("filterStats");
+    const totalAppsCounter = document.getElementById("totalAppsCounter");
+    const liveClock = document.getElementById("liveClock");
+    const currentYear = document.getElementById("currentYear");
+
+    // Modal Add Elements
+    const openAddModalBtn = document.getElementById("openAddModalBtn");
+    const addSystemModal = document.getElementById("addSystemModal");
+    const addModalBackdrop = document.getElementById("addModalBackdrop");
+    const closeAddModalBtn = document.getElementById("closeAddModalBtn");
+    const cancelAddModalBtn = document.getElementById("cancelAddModalBtn");
+    const addSystemForm = document.getElementById("addSystemForm");
+    const iconPickerGrid = document.getElementById("iconPickerGrid");
+    const formIcon = document.getElementById("formIcon");
+
+    // Modal Delete Elements
+    const deleteModal = document.getElementById("deleteModal");
+    const deleteModalBackdrop = document.getElementById("deleteModalBackdrop");
+    const cancelDeleteBtn = document.getElementById("cancelDeleteBtn");
+    const confirmDeleteBtn = document.getElementById("confirmDeleteBtn");
+    const deleteSystemName = document.getElementById("deleteSystemName");
+
+    // Year Init
+    currentYear.textContent = new Date().getFullYear();
+
+    /**
+     * Storage Helpers
+     */
+    function loadSystems() {
+      try {
+        const stored = localStorage.getItem(STORAGE_KEY);
+        if (stored) {
+          return JSON.parse(stored);
+        }
+      } catch (e) {
+        console.error("Gagal memuat dari localStorage", e);
+      }
+      return [...DEFAULT_SYSTEMS];
+    }
+
+    function saveSystems() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(systems));
+      } catch (e) {
+        console.error("Gagal menyimpan ke localStorage", e);
+      }
+    }
+
+    /**
+     * Toast Helper
+     */
+    function showToast(message) {
+      const toast = document.getElementById("toast");
+      const toastMessage = document.getElementById("toastMessage");
+      toastMessage.textContent = message;
+      toast.classList.remove("translate-y-20", "opacity-0");
+      toast.classList.add("translate-y-0", "opacity-100");
+
+      setTimeout(() => {
+        toast.classList.remove("translate-y-0", "opacity-100");
+        toast.classList.add("translate-y-20", "opacity-0");
+      }, 2500);
+    }
+
+    /**
+     * Render Category Buttons
+     */
+    function renderCategoryButtons() {
+      categoryFilterContainer.innerHTML = "";
+      
+      CATEGORIES.forEach(cat => {
+        const count = cat.id === "all" 
+          ? systems.length 
+          : systems.filter(item => item.category === cat.id).length;
+
+        const isActive = currentCategory === cat.id;
+
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = `flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold transition-all duration-200 ${
+          isActive 
+            ? "bg-orange-500 text-white shadow-md shadow-orange-500/25" 
+            : "text-slate-600 hover:text-slate-900 hover:bg-orange-50/60"
+        }`;
+        
+        btn.innerHTML = `
+          <i data-lucide="${cat.icon}" class="w-3.5 h-3.5"></i>
+          <span>${cat.name}</span>
+          <span class="px-1.5 py-0.2 rounded-md text-[10px] ${
+            isActive ? "bg-orange-600 text-white" : "bg-slate-100 text-slate-500"
+          }">${count}</span>
+        `;
+
+        btn.addEventListener("click", () => {
+          currentCategory = cat.id;
+          renderCategoryButtons();
+          filterAndRenderCards();
+        });
+
+        categoryFilterContainer.appendChild(btn);
+      });
+
+      lucide.createIcons();
+    }
+
+    /**
+     * Badge Color Helper for Light Theme
+     */
+    function getBadgeStyle(badge) {
+      const b = (badge || "").toLowerCase();
+      if (b.includes("prod")) {
+        return "bg-emerald-50 text-emerald-700 border-emerald-200";
+      } else if (b.includes("local")) {
+        return "bg-blue-50 text-blue-700 border-blue-200";
+      } else if (b.includes("dev")) {
+        return "bg-amber-50 text-amber-700 border-amber-200";
+      }
+      return "bg-orange-50 text-orange-700 border-orange-200";
+    }
+
+    /**
+     * Render Cards
+     */
+    function filterAndRenderCards() {
+      const query = searchQuery.trim().toLowerCase();
+
+      const filtered = systems.filter(item => {
+        const matchesCategory = currentCategory === "all" || item.category === currentCategory;
+        const matchesSearch = query === "" || 
+          item.title.toLowerCase().includes(query) ||
+          item.description.toLowerCase().includes(query) ||
+          (item.endpointHint && item.endpointHint.toLowerCase().includes(query)) ||
+          item.badge.toLowerCase().includes(query);
+
+        return matchesCategory && matchesSearch;
+      });
+
+      // Update counters
+      totalAppsCounter.textContent = systems.length;
+      if (query || currentCategory !== "all") {
+        filterStats.textContent = `Menemukan ${filtered.length} dari ${systems.length} sistem`;
+      } else {
+        filterStats.textContent = `Menampilkan seluruh ${systems.length} sistem`;
+      }
+
+      // Empty State
+      if (filtered.length === 0) {
+        cardsGrid.innerHTML = "";
+        emptyState.classList.remove("hidden");
+        emptyStateQuery.textContent = query || currentCategory;
+        return;
+      }
+
+      emptyState.classList.add("hidden");
+      cardsGrid.innerHTML = "";
+
+      // Render Each Card
+      filtered.forEach(item => {
+        const badgeStyle = getBadgeStyle(item.badge);
+
+        const card = document.createElement("div");
+        card.className = `group relative bg-white hover:bg-orange-50/20 border border-slate-200/90 hover:border-orange-300 rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-orange-500/10 flex flex-col justify-between`;
+
+        card.innerHTML = `
+          <div>
+            <!-- Header: Icon, Badge, and Delete Button -->
+            <div class="flex items-start justify-between gap-3 mb-4">
+              <!-- Orange Icon Container -->
+              <div class="w-12 h-12 rounded-xl bg-orange-50 border border-orange-200/80 flex items-center justify-center text-orange-600 group-hover:scale-105 group-hover:bg-orange-500 group-hover:text-white transition-all duration-300 shadow-sm">
+                <i data-lucide="${item.icon || 'boxes'}" class="w-6 h-6"></i>
+              </div>
+
+              <!-- Badges & Actions -->
+              <div class="flex items-center gap-1.5">
+                <div class="flex items-center gap-1.5 px-2.5 py-1 rounded-full border text-[11px] font-semibold ${badgeStyle}">
+                  <span class="w-1.5 h-1.5 rounded-full bg-current"></span>
+                  <span>${item.badge}</span>
+                </div>
+
+                <!-- Delete Icon Button -->
+                <button 
+                  onclick="openDeleteModal('${item.id}', '${item.title.replace(/'/g, "\\'")}')"
+                  class="p-1.5 rounded-lg text-slate-400 hover:text-red-600 hover:bg-red-50 transition-colors opacity-70 group-hover:opacity-100"
+                  title="Hapus ${item.title}"
+                >
+                  <i data-lucide="trash-2" class="w-4 h-4"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Title & Category -->
+            <div class="mb-2">
+              <span class="text-[10px] font-bold tracking-wider uppercase text-orange-600 block mb-0.5">
+                ${(item.category || 'general').replace('-', ' ')}
+              </span>
+              <h2 class="text-base sm:text-lg font-bold text-slate-900 group-hover:text-orange-600 transition-colors">
+                ${item.title}
+              </h2>
+            </div>
+
+            <!-- Description -->
+            <p class="text-xs sm:text-sm text-slate-500 leading-relaxed line-clamp-2 mb-6">
+              ${item.description || 'Tidak ada deskripsi tersedia.'}
+            </p>
+          </div>
+
+          <!-- Card Footer: Endpoint & Direct Access Button -->
+          <div class="pt-4 border-t border-slate-100 flex items-center justify-between gap-2 mt-auto">
+            <!-- Endpoint Hint -->
+            <div class="flex items-center gap-1.5 text-slate-400 text-xs font-mono truncate max-w-[65%]" title="${item.endpointHint || item.url}">
+              <i data-lucide="globe" class="w-3.5 h-3.5 text-orange-500/70 shrink-0"></i>
+              <span class="truncate">${item.endpointHint || item.url.replace(/^https?:\/\//, '')}</span>
+            </div>
+
+            <!-- Open Button -->
+            <a 
+              href="${item.url}" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-orange-500 hover:bg-orange-600 text-white text-xs font-semibold shadow-sm hover:shadow transition-all group-hover:scale-105"
+              title="Buka ${item.title}"
+            >
+              <span>Buka</span>
+              <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+            </a>
+          </div>
+        `;
+
+        cardsGrid.appendChild(card);
+      });
+
+      lucide.createIcons();
+    }
+
+    /**
+     * Setup Icon Picker in Add Modal
+     */
+    function setupIconPicker() {
+      iconPickerGrid.innerHTML = "";
+      AVAILABLE_ICONS.forEach((ic, index) => {
+        const isDefault = index === 0;
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = `icon-choice-btn p-2 rounded-xl border flex items-center justify-center transition-all ${
+          isDefault 
+            ? "border-orange-500 bg-orange-50 text-orange-600" 
+            : "border-slate-200 bg-slate-50 text-slate-600 hover:bg-white"
+        }`;
+        btn.innerHTML = `<i data-lucide="${ic}" class="w-4 h-4"></i>`;
+        
+        btn.addEventListener("click", () => {
+          document.querySelectorAll(".icon-choice-btn").forEach(b => {
+            b.className = "icon-choice-btn p-2 rounded-xl border border-slate-200 bg-slate-50 text-slate-600 hover:bg-white flex items-center justify-center transition-all";
+          });
+          btn.className = "icon-choice-btn p-2 rounded-xl border border-orange-500 bg-orange-50 text-orange-600 flex items-center justify-center transition-all";
+          formIcon.value = ic;
+        });
+
+        iconPickerGrid.appendChild(btn);
+      });
+      lucide.createIcons();
+    }
+
+    /**
+     * Modal Add Logic
+     */
+    function openAddModal() {
+      addSystemForm.reset();
+      formIcon.value = AVAILABLE_ICONS[0];
+      setupIconPicker();
+      addSystemModal.classList.remove("hidden");
+      document.body.style.overflow = "hidden";
+      setTimeout(() => document.getElementById("formTitle").focus(), 50);
+    }
+
+    function closeAddModal() {
+      addSystemModal.classList.add("hidden");
+      document.body.style.overflow = "";
+    }
+
+    openAddModalBtn.addEventListener("click", openAddModal);
+    closeAddModalBtn.addEventListener("click", closeAddModal);
+    cancelAddModalBtn.addEventListener("click", closeAddModal);
+    addModalBackdrop.addEventListener("click", closeAddModal);
+
+    // Form Submit (Tambah Sistem)
+    addSystemForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const title = document.getElementById("formTitle").value.trim();
+      let url = document.getElementById("formUrl").value.trim();
+      const category = document.getElementById("formCategory").value;
+      const badge = document.getElementById("formBadge").value;
+      const icon = formIcon.value;
+      const description = document.getElementById("formDescription").value.trim() || "Aplikasi dan layanan internal perusahaan.";
+      let endpointHint = document.getElementById("formEndpointHint").value.trim();
+
+      if (!url.startsWith("http://") && !url.startsWith("https://")) {
+        url = "http://" + url;
+      }
+
+      if (!endpointHint) {
+        endpointHint = url.replace(/^https?:\/\//, '');
+      }
+
+      const newSystem = {
+        id: "sys-" + Date.now(),
+        title,
+        category,
+        description,
+        url,
+        endpointHint,
+        badge,
+        icon
+      };
+
+      // Add to beginning of array
+      systems.unshift(newSystem);
+      saveSystems();
+
+      renderCategoryButtons();
+      filterAndRenderCards();
+      closeAddModal();
+      showToast(`Sistem "${title}" berhasil ditambahkan!`);
+    });
+
+    /**
+     * Modal Delete Logic
+     */
+    window.openDeleteModal = function(id, name) {
+      systemIdToDelete = id;
+      deleteSystemName.textContent = `"${name}"`;
+      deleteModal.classList.remove("hidden");
+      document.body.style.overflow = "hidden";
+    };
+
+    function closeDeleteModal() {
+      deleteModal.classList.add("hidden");
+      systemIdToDelete = null;
+      document.body.style.overflow = "";
+    }
+
+    cancelDeleteBtn.addEventListener("click", closeDeleteModal);
+    deleteModalBackdrop.addEventListener("click", closeDeleteModal);
+
+    confirmDeleteBtn.addEventListener("click", () => {
+      if (!systemIdToDelete) return;
+
+      const deletedItem = systems.find(s => s.id === systemIdToDelete);
+      systems = systems.filter(s => s.id !== systemIdToDelete);
+      saveSystems();
+
+      renderCategoryButtons();
+      filterAndRenderCards();
+      closeDeleteModal();
+      showToast(`Sistem "${deletedItem ? deletedItem.title : ''}" berhasil dihapus.`);
+    });
+
+    /**
+     * Restore Default Mock Data
+     */
+    restoreDefaultsBtn.addEventListener("click", () => {
+      if (confirm("Kembalikan seluruh daftar sistem ke pengaturan data default awal?")) {
+        systems = [...DEFAULT_SYSTEMS];
+        saveSystems();
+        currentCategory = "all";
+        searchQuery = "";
+        searchInput.value = "";
+        clearSearchBtn.classList.add("hidden");
+        renderCategoryButtons();
+        filterAndRenderCards();
+        showToast("Data default berhasil dipulihkan!");
+      }
+    });
+
+    /**
+     * Search Listeners
+     */
+    searchInput.addEventListener("input", (e) => {
+      searchQuery = e.target.value;
+      if (searchQuery.length > 0) {
+        clearSearchBtn.classList.remove("hidden");
+      } else {
+        clearSearchBtn.classList.add("hidden");
+      }
+      filterAndRenderCards();
+    });
+
+    clearSearchBtn.addEventListener("click", () => {
+      searchInput.value = "";
+      searchQuery = "";
+      clearSearchBtn.classList.add("hidden");
+      searchInput.focus();
+      filterAndRenderCards();
+    });
+
+    resetFilterBtn.addEventListener("click", () => {
+      searchInput.value = "";
+      searchQuery = "";
+      currentCategory = "all";
+      clearSearchBtn.classList.add("hidden");
+      renderCategoryButtons();
+      filterAndRenderCards();
+    });
+
+    /**
+     * Keyboard Shortcuts
+     */
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "/" && document.activeElement !== searchInput && addSystemModal.classList.contains("hidden")) {
+        e.preventDefault();
+        searchInput.focus();
+        searchInput.select();
+      } else if (e.key === "Escape") {
+        if (!addSystemModal.classList.contains("hidden")) {
+          closeAddModal();
+        } else if (!deleteModal.classList.contains("hidden")) {
+          closeDeleteModal();
+        } else if (document.activeElement === searchInput) {
+          searchInput.value = "";
+          searchQuery = "";
+          clearSearchBtn.classList.add("hidden");
+          searchInput.blur();
+          filterAndRenderCards();
+        }
+      }
+    });
+
+    /**
+     * Real-time Clock (WIB)
+     */
+    function updateLiveClock() {
+      const now = new Date();
+      const options = {
+        timeZone: "Asia/Jakarta",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: false
+      };
+      liveClock.textContent = `${now.toLocaleTimeString("id-ID", options)} WIB`;
+    }
+    setInterval(updateLiveClock, 1000);
+    updateLiveClock();
+
+    // Initial Execution
+    setupIconPicker();
+    renderCategoryButtons();
+    filterAndRenderCards();
+  </script>
+</body>
+</html>
